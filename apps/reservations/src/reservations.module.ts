@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ReservationsService } from './reservations.service';
 import { ReservationsController } from './reservations.controller';
-import { DatabaseModule } from '@app/common';
+import { DatabaseModule, LoggerModule } from '@app/common';
 import { ReservationsRepository } from './reservations.repository';
 import {
   ReservationDocument,
   ReservationSchema,
 } from './models/reservation.schema';
-
 @Module({
   imports: [
     //we use this code for importing the DatabaseModule
@@ -19,6 +18,7 @@ import {
         schema: ReservationSchema,
       },
     ]),
+    LoggerModule,
   ],
   controllers: [ReservationsController],
   providers: [ReservationsService, ReservationsRepository],
