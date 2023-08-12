@@ -16,4 +16,6 @@
         export class ConfigModule {}
    <----------->
    #09::npm run start:dev
+   #10::nest g app reservations
+   #11::nest g resource reservations
  */
