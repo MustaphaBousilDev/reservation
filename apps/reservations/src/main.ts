@@ -5,6 +5,7 @@ import { Logger } from 'nestjs-pino';
 
 //pino is a logger for Node.js applications and it is used to log the data in the console
 async function bootstrap() {
+  console.log('fuck you bitch');
   const app = await NestFactory.create(ReservationsModule);
   //ValidationPipe is used to validate the data that is coming from the client and if the data is not valid then it will throw an error
   //app.useGlobalPipes() is used to apply the ValidationPipe globally

@@ -18,8 +18,14 @@
    #09::npm run start:dev
    #10::nest g app reservations
    #11::nest g resource reservations
-
-
    #12::nest g module logger
    -->choose common
+
+   #13::nest g app auth
+   #14::nest g module users
+   -->choose auth
+    #15::nest g controller users
+    -->choose auth
+    #16::nest g service users
+    -->choose auth
  */

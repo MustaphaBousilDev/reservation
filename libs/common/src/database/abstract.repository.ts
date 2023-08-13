@@ -25,7 +25,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
     //finding the document with the help of model
     //lean: true is used to convert the document into JSON format
-    const document=await this.model.findOne(filterQuery, {}, { lean: true });
+    const document = await this.model.findOne(filterQuery, {}, { lean: true });
     if (!document) {
       this.logger.warn('Document not found with filterQuery', filterQuery);
       throw new NotFoundException('Document not found');
@@ -43,8 +43,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     });
 
     if (!document) {
-        this.logger.warn('Document not found with filterQuery', filterQuery);
-        throw new NotFoundException('Document not found.');
+      this.logger.warn('Document not found with filterQuery', filterQuery);
+      throw new NotFoundException('Document not found.');
     }
     return document;
   }
@@ -52,7 +52,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   async find(filterQuery: FilterQuery<TDocument>) {
     return this.model.find(filterQuery, {}, { lean: true });
   }
-  
+
   async findOneAndDelete(filterQuery: FilterQuery<TDocument>) {
     return this.model.findOneAndDelete(filterQuery, { lean: true });
   }
