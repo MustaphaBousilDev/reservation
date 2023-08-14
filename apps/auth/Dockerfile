@@ -1,29 +1,17 @@
-FROM node:18-alpine As development
+# Base image
+FROM node:18
 
+# Create app directory
 WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY package-lock.json ./
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY package*.json ./
 
-RUN npm cache clean --force
+
 RUN npm install
 
 COPY . .
 
-RUN npm run build
-
-FROM node:alpine As production
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src/app
-
-COPY package.json ./
-COPY package-lock.json ./
-
-RUN npm install --prod
-
-COPY --from=development /usr/src/app/dist ./dist
+RUN npm run build auth
 
 CMD ["node", "dist/apps/auth/main"]
