@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ReservationsModule } from './reservations.module';
 import { ValidationPipe } from '@nestjs/common';
 import { Logger } from 'nestjs-pino';
+import { ConfigService } from '@nestjs/config';
 
 //pino is a logger for Node.js applications and it is used to log the data in the console
 async function bootstrap() {
@@ -14,6 +15,7 @@ async function bootstrap() {
   //app.useLogger() is used to apply the logger globally
   //app.get(Logger) is used to get the instance of the Logger class
   app.useLogger(app.get(Logger));
-  await app.listen(3000);
+  const configService = app.get(ConfigService);
+  await app.listen(configService.get('PORT'));
 }
 bootstrap();
