@@ -6,6 +6,6 @@ import { UsersRepository } from './users.repository';
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
   async createUser(createUserDto: CreateUserDto) {
-    return this.usersRepository.createUser(createUserDto);
+    return this.usersRepository.create(createUserDto);
   }
 }
