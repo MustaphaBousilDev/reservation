@@ -1,9 +1,11 @@
 import { Controller, Post, UseGuards, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { CurrentUser } from './current-user.decorator';
+import { CurrentUser } from '@app/common';
 import { Response } from 'express';
 import { UserDocument } from './users/models/user.schema';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('auth')
 export class AuthController {
@@ -19,5 +21,14 @@ export class AuthController {
   ) {
     await this.authService.login(user, response);
     response.send(user);
+  }
+
+  //JwtAuthGuard is a custom guard using for protecting routes from unauthorized access
+  @UseGuards(JwtAuthGuard)
+  //@MessagePattern('authenticate') is a custom decorator for getting the current user from the jwt token and it is used for protecting routes from unauthorized access
+  //@MessagePattern work with microservices and it is used to send messages to the auth microservice
+  @MessagePattern('authenticate')
+  async authenticate(@Payload() data: any) {
+    return data.user;
   }
 }
