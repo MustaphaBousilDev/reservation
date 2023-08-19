@@ -4,20 +4,30 @@ import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { ReservationsRepository } from './reservations.repository';
 import { PAYMENTS_SERVICE } from '@app/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { map } from 'rxjs';
 
 @Injectable()
 export class ReservationsService {
   constructor(
     private readonly reservationsRepository: ReservationsRepository,
-    @Inject(PAYMENTS_SERVICE) paymentsService: ClientProxy,
+    @Inject(PAYMENTS_SERVICE) private readonly paymentsService: ClientProxy,
   ) {}
 
   async create(createReservationDto: CreateReservationDto, userId: string) {
-    return this.reservationsRepository.create({
-      ...createReservationDto,
-      timestamp: new Date(),
-      userId,
-    });
+    return this.paymentsService
+      .send('create_charge', createReservationDto.charge) //send is used to send a message to the microservice and 'create_charge' is the pattern that the microservice is listening for and createReservationDto.charge is the data that is sent to the microservice
+      .pipe(
+        //map is used to handle asynchronous operations
+        map((res) => {
+          //console.log(response);
+          return this.reservationsRepository.create({
+            ...createReservationDto,
+            invoiceId: res.id,
+            timestamp: new Date(),
+            userId,
+          });
+        }),
+      );
   }
 
   async findAll() {
