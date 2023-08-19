@@ -17,6 +17,15 @@ services:
       - ./apps/reservations/.env
     ports:
       - 3000:3000
+  payments: 
+    build:
+      context: .
+      dockerfile: ./apps/payments/Dockerfile
+    command: npm run start:dev payments
+    env_file:
+      - ./apps/payments/.env
+    ports:
+      - 3003:3003
   mongo:
     image: mongo
     

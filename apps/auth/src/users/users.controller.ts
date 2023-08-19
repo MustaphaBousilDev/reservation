@@ -14,6 +14,9 @@ export class UsersController {
   }
 
   @Get()
+  //@useGuards is a custom decorator for protecting routes from unauthorized access
+  //JwtAuthGuard is a custom guard using for protecting routes from unauthorized access
+  //currentUser decorator is a custom decorator for getting the current user
   @UseGuards(JwtAuthGuard)
   async getUser(@CurrentUser() user: UserDocument) {
     return user;

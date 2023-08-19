@@ -19,4 +19,5 @@ export class ReservationDocument extends AbstractDocument {
 }
 
 //ReservationSchema is used to create a new schema for the reservation document
-export const ReservationSchema = SchemaFactory.createForClass(ReservationDocument);
+export const ReservationSchema =
+  SchemaFactory.createForClass(ReservationDocument);
