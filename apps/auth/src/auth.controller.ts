@@ -19,6 +19,7 @@ export class AuthController {
     @CurrentUser() user: UserDocument,
     @Res({ passthrough: true }) response: Response,
   ) {
+    console.log('login', user);
     await this.authService.login(user, response);
     response.send(user);
   }
@@ -28,7 +29,11 @@ export class AuthController {
   //@MessagePattern('authenticate') is a custom decorator for getting the current user from the jwt token and it is used for protecting routes from unauthorized access
   //@MessagePattern work with microservices and it is used to send messages to the auth microservice
   @MessagePattern('authenticate')
+  //@Payload() is a custom decorator for getting the current user from the jwt token and it is used for protecting routes from unauthorized access
+  //in this case @Payload() is used to get the jwt token from the request object and then send it to the auth microservice for validation and then return the user object if the jwt token is valid
   async authenticate(@Payload() data: any) {
+    console.log('fucking data', data);
+    data.user.name = 'mother fucker';
     return data.user;
   }
 }

@@ -23,6 +23,7 @@ export class ReservationsService {
         email, //for using in notifications microservice
       }) //send is used to send a message to the microservice and 'create_charge' is the pattern that the microservice is listening for and createReservationDto.charge is the data that is sent to the microservice
       .pipe(
+        //tap is used to perform side effects on the data coming in from the microservice in other words it is used to perform operations on the data coming in from the microservice(for example logging the data coming in from the microservice)
         //map is used to handle asynchronous operations
         map((res) => {
           //console.log(response);

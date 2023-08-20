@@ -12,6 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly usersService: UsersService,
   ) {
     super({
+      //extracting data from token
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: any) =>
           request?.cookies?.Authentication || request?.Authentication,
@@ -19,8 +20,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       secretOrKey: configService.get('JWT_SECRET'),
     });
   }
-
   async validate({ userId }: TokenPayload) {
+    console.log('fucking check token comming from lib for get userr');
+    console.log(userId);
     return this.usersService.getUser({ _id: userId });
   }
 }

@@ -34,7 +34,10 @@ export class PaymentsService {
       currency: 'usd',
     });
 
-    this.notificationsService.emit('notify_email', { email });
+    this.notificationsService.emit('notify_email', {
+      email,
+      text: `Your fucking Payment of $${amount} has fuccking succesfly`,
+    });
 
     return paymentIntent;
   }
