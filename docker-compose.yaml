@@ -24,8 +24,13 @@ services:
     command: npm run start:dev payments
     env_file:
       - ./apps/payments/.env
-    ports:
-      - 3003:3003
+  notifications: 
+    build:
+      context: .
+      dockerfile: ./apps/notifications/Dockerfile
+    command: npm run start:dev notifications
+    env_file:
+      - ./apps/notifications/.env
   mongo:
     image: mongo
     

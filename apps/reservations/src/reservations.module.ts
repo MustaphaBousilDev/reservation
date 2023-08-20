@@ -43,7 +43,9 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     ClientsModule.registerAsync([
       //with auth service
       {
+        //name is used to identify the client
         name: AUTH_SERVICE,
+        //useFactory is used to create a new microservice client
         useFactory: (configService: ConfigService) => ({
           transport: Transport.TCP,
           options: {
