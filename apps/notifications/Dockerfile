@@ -6,10 +6,17 @@ WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 
+COPY tsconfig.json tsconfig.json
+
+COPY nest-cli.json nest-cli.json
+
 
 RUN npm install
 
-COPY . .
+COPY apps/notifications apps/notifications
+COPY libs libs 
+
+RUN cd apps/notifications && npm install
 
 RUN npm run build notifications
 

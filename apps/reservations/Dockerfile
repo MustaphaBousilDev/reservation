@@ -1,4 +1,4 @@
-FROM node:alpine As development 
+FROM node:alpine as development 
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -6,10 +6,16 @@ WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 
+COPY tsconfig.json tsconfig.json
+
+COPY nest-cli.json nest-cli.json
 
 RUN npm install
 
-COPY . .
+COPY apps/reservations apps/reservations 
+COPY libs libs 
+
+RUN cd apps/reservations && npm install
 
 RUN npm run build reservations
 
