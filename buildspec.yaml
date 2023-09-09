@@ -7,18 +7,18 @@ phases:
   build:
     commands:
       - docker-compose build auth
-      - docker tag reservation-auth 219315770087.dkr.ecr.us-east-1.amazonaws.com/auth
+      - docker tag auth 219315770087.dkr.ecr.us-east-1.amazonaws.com/auth
 
 
       - docker-compose build reservations
-      - docker tag reservation-reservations 219315770087.dkr.ecr.us-east-1.amazonaws.com/reservations
+      - docker tag reservations 219315770087.dkr.ecr.us-east-1.amazonaws.com/reservations
 
 
       - docker-compose build payments
-      - docker tag reservation-payments 219315770087.dkr.ecr.us-east-1.amazonaws.com/payments
+      - docker tag payments 219315770087.dkr.ecr.us-east-1.amazonaws.com/payments
 
       - docker-compose build notifications
-      - docker tag reservation-notifications 219315770087.dkr.ecr.us-east-1.amazonaws.com/notifications
+      - docker tag notifications 219315770087.dkr.ecr.us-east-1.amazonaws.com/notifications
   post_build:
     commands:
       - docker push 219315770087.dkr.ecr.us-east-1.amazonaws.com/auth
