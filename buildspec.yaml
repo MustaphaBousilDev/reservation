@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 219315770087.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - docker-compose build reservations
+      - docker tag hotel-systeme-new-reservations:latest 219315770087.dkr.ecr.us-east-1.amazonaws.com/reservations:latest
+
+      - docker-compose build auth
+      - docker tag hotel-systeme-new-auth:latest 219315770087.dkr.ecr.us-east-1.amazonaws.com/auth:latest
+
+      - docker-compose build payments
+      - docker tag hotel-systeme-new-payments:latest 219315770087.dkr.ecr.us-east-1.amazonaws.com/payments:latest
+
+      - docker-compose build notifications
+      - docker tag hotel-systeme-new-notifications:latest 219315770087.dkr.ecr.us-east-1.amazonaws.com/notifications:latest
+  post_build:
+    commands:
+      - docker push 219315770087.dkr.ecr.us-east-1.amazonaws.com/reservations:latest
+      - docker push 219315770087.dkr.ecr.us-east-1.amazonaws.com/auth:latest
+      - docker push 219315770087.dkr.ecr.us-east-1.amazonaws.com/payments:latest
+      - docker push 219315770087.dkr.ecr.us-east-1.amazonaws.com/notifications:latest
