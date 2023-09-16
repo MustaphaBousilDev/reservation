@@ -9,10 +9,8 @@ phases:
       - docker-compose build auth
       - docker tag auth 219315770087.dkr.ecr.us-east-1.amazonaws.com/auth
 
-
       - docker-compose build reservations
       - docker tag reservations 219315770087.dkr.ecr.us-east-1.amazonaws.com/reservations
-
 
       - docker-compose build payments
       - docker tag payments 219315770087.dkr.ecr.us-east-1.amazonaws.com/payments
