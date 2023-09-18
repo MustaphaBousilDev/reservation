@@ -30,6 +30,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       this.logger.warn('Document not found with filterQuery', filterQuery);
       throw new NotFoundException('Document not found');
     }
+    console.log('this is user by fucking id');
     return document;
   }
 

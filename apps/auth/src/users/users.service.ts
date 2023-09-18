@@ -27,10 +27,10 @@ export class UsersService {
     return user;
   }
 
-  async getUser(getUserDto: GetUserDto) {
+  async getUser(_id: GetUserDto) {
     console.log('this is fucking uer from token payload id ');
-    //console.log(this.usersRepository.findOne(getUserDto));
-    return this.usersRepository.findOne(getUserDto);
+    //console.log(this.usersRepository.findOne(getUserDto));<
+    return this.usersRepository.findOne({ _id });
   }
 
   private async validateCreateUserDto(createUserDto: CreateUserDto) {
