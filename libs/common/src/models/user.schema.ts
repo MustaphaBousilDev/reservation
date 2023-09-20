@@ -8,6 +8,8 @@ export class UserDocument extends AbstractDocument {
   email: string;
   @Prop({ required: true })
   password: string;
+  @Prop()
+  roles?: string[];
 }
 
 //ReservationSchema is used to create a new schema for the reservation document

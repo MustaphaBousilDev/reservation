@@ -1,17 +1,28 @@
-import { CanActivate, Injectable, Inject } from '@nestjs/common';
+import {
+  CanActivate,
+  Injectable,
+  Inject,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ExecutionContext } from '@nestjs/common';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { AUTH_SERVICE } from '../constants/services';
 import { ClientProxy } from '@nestjs/microservices';
 import { UserDto } from '../dto';
+import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
+  private readonly logger = new Logger(JwtAuthGuard.name);
   //client proxy is used to send messages to the auth service in other words to send messages to the auth microservice
   //the auth microservice is the one that is responsible for validating the jwt
   //ClientProxy is a class that is provided by nestjs microservices package and it is used to send messages to other microservices in the system (in this case the auth microservice)
   //@Inject() is a decorator that is provided by nestjs common package and it is used to inject dependencies into the class
-  constructor(@Inject(AUTH_SERVICE) private readonly authClient: ClientProxy) {}
+  constructor(
+    @Inject(AUTH_SERVICE) private readonly authClient: ClientProxy,
+    private readonly reflector: Reflector,
+  ) {}
   //can
   canActivate(
     //context is the request object
@@ -27,6 +38,8 @@ export class JwtAuthGuard implements CanActivate {
     const jwt = context.switchToHttp().getRequest().cookies?.Authentication; //jwt has the value of the cookie named Authentication
     if (!jwt) return false;
 
+    const roles = this.reflector.get<string[]>('roles', context.getHandler());
+
     //send messsage to auth service that matches the current pattern
     //the auth service is the one that is responsible for validating the jwt
     //ClientProxy is a class that is provided by nestjs microservices package and it is used to send messages to other microservices in the system (in this case the auth microservice)
@@ -39,12 +52,23 @@ export class JwtAuthGuard implements CanActivate {
         tap((res) => {
           console.log('fucking responsive');
           console.log(res);
+          if (roles) {
+            for (const role of roles) {
+              if (!res.roles?.includes(role)) {
+                this.logger.error('The user does not have valid roles.');
+                throw new UnauthorizedException();
+              }
+            }
+          }
           //res is the user object that is returned from the auth microservice if the jwt is valid and the user is authenticated
           //res has value of false if the jwt is not valid and the user is not authenticated oand if jwt is valid and the user is authenticated then res has the user object
           context.switchToHttp().getRequest().user = res; //set the user property of the request object to the user object that is returned from the auth microservice
         }),
         map(() => true),
-        catchError(() => of(false)),
+        catchError((err) => {
+          this.logger.error(err);
+          return of(false);
+        }),
       );
   }
 }
