@@ -19,8 +19,8 @@ export class UsersController {
   //currentUser decorator is a custom decorator for getting the current user
   @UseGuards(JwtAuthGuard)
   async getUser(@CurrentUser() user: UserDocument) {
-    console.log('fuck realy from mother fucker');
-    console.log(user);
+    //console.log('fuck realy from mother fucker');
+    //console.log(user);
     return user;
   }
 

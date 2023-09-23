@@ -21,8 +21,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
   async validate({ userId }: TokenPayload) {
-    console.log('fucking check token comming from lib for get userr');
-    console.log(userId);
+    //console.log('fucking check token comming from lib for get userr');
+    //console.log(userId);
     return this.usersService.getUser({ _id: userId });
   }
 }

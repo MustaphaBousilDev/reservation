@@ -23,12 +23,17 @@ export class UsersService {
     if (!passwordIsValid) {
       throw new UnauthorizedException('Invalid credentials');
     }
+    console.log('-----------------------------------------------------\n');
+    console.log('--------------------------verify user \n');
+    console.log('-----------------------------------------------------\n');
     //user.password = 'bitch local strategy';
     return user;
   }
 
   async getUser(_id: GetUserDto) {
-    console.log('this is fucking uer from token payload id ');
+    console.log('##################################');
+    console.log('inside user service');
+    console.log('####################################');
     //console.log(this.usersRepository.findOne(getUserDto));<
     return this.usersRepository.findOne({ _id });
   }
