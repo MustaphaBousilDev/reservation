@@ -21,6 +21,17 @@ services:
       - ./apps/reservations/.env
     ports:
       - 3000:3000
+  hotel: 
+    build:
+      context: .
+      dockerfile: ./apps/hotel/Dockerfile
+      target: development
+    image: hotels
+    command: npm run start:dev hotel
+    env_file:
+      - ./apps/hotel/.env
+    ports:
+      - 3008:3008
   payments: 
     build:
       context: .
