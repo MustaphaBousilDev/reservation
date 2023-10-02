@@ -27,6 +27,10 @@ export class HotelDocument extends AbstractDocument {
   longitude: string;
   @Prop({ required: true })
   roomsPassword: string;
+  @Prop({ required: true })
+  userId: string;
+  @Prop({ required: true })
+  timestamp: Date;
 }
 
 export const HotelSchema = SchemaFactory.createForClass(HotelDocument);
