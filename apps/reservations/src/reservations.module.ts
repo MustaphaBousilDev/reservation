@@ -28,7 +28,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     ]),
     LoggerModule,
     ConfigModule.forRoot({
-      isGlobal: true, 
+      isGlobal: true,
       validationSchema: Joi.object({
         MONGODB_URI: Joi.string().required(),
         PORT: Joi.number().required(),
@@ -38,8 +38,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         PAYMENTS_PORT: Joi.number().required(),
       }),
     }),
-    //ClientModel is a class that is used for creating a microservice client
-    //
     ClientsModule.registerAsync([
       //with auth service
       {
@@ -47,10 +45,10 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: AUTH_SERVICE,
         //useFactory is used to create a new microservice client
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.RMQ,
           options: {
-            host: configService.get('AUTH_HOST'),
-            port: configService.get('AUTH_PORT'),
+            urls: [configService.getOrThrow<string>('RABBITMQ_URI')],
+            queue: 'auth',
           },
         }),
         inject: [ConfigService],
@@ -59,10 +57,10 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       {
         name: PAYMENTS_SERVICE,
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.RMQ,
           options: {
-            host: configService.get('PAYMENTS_HOST'),
-            port: configService.get('PAYMENTS_PORT'),
+            urls: [configService.getOrThrow<string>('RABBITMQ_URI')],
+            queue: 'payments',
           },
         }),
         inject: [ConfigService],

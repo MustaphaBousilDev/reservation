@@ -9,13 +9,14 @@ import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule);
   const configService = app.get(ConfigService);
+
   //connect to microservice using TCP protocol
   app.connectMicroservice({
-    transport: Transport.TCP,
+    //transport: Transport.TCP,
+    transport: Transport.RMQ,
     options: {
-      host: '0.0.0.0',
-      //port is for
-      port: configService.get('TCP_PORT'),
+      urls: [configService.getOrThrow('RABBITMQ_URI')],
+      queue: 'auth',
     },
   });
   //cookie parser middleware to parse cookies from request object and add them to req.cookies

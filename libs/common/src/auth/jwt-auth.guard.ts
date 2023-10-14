@@ -19,7 +19,9 @@ export class JwtAuthGuard implements CanActivate {
   //the auth microservice is the one that is responsible for validating the jwt
   //ClientProxy is a class that is provided by nestjs microservices package and it is used to send messages to other microservices in the system (in this case the auth microservice)
   //@Inject() is a decorator that is provided by nestjs common package and it is used to inject dependencies into the class
+  //reflector is used to get the metadata of the handler method of the controller
   constructor(
+    //type of authClient is ClientProxy and it is used to send messages to the auth microservice
     @Inject(AUTH_SERVICE) private readonly authClient: ClientProxy,
     private readonly reflector: Reflector,
   ) {}

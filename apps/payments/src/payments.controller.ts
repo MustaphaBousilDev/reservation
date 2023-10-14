@@ -12,6 +12,7 @@ export class PaymentsController {
   //ValidationPipe is used to validate the data coming in from the client
   @UsePipes(new ValidationPipe())
   async createCharge(@Payload() data: PaymentsCreateChargeDto) {
+    //throw new Error('Not implemented');
     return this.paymentsService.createCharge(data);
   }
 }

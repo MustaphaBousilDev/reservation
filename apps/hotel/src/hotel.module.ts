@@ -34,10 +34,18 @@ import { HotelRepository } from './hotel.repository';
         name: AUTH_SERVICE,
         //useFactory is using to create new microservice client
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.RMQ,
+          /*options: {
+            host: configService.get('PAYMENTS_HOST'),
+            port: configService.get('PAYMENTS_PORT'),
+          },*/
           options: {
-            host: configService.get('AUTH_HOST'),
-            port: configService.get('AUTH_PORT'),
+            //urls is an array of strings that represents the RabbitMQ connection URLs
+            urls: ['amqp://user:password@localhost:5672'],
+            queue: 'auth',
+            queueOptions: {
+              durable: false,
+            },
           },
         }),
         inject: [ConfigService],
